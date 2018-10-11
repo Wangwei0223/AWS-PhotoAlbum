@@ -7,6 +7,8 @@
 </template>
 
 <script>
+import {GetTestInfo} from './utils/data.js';
+
 export default {
   data() {
     return {
@@ -21,9 +23,8 @@ export default {
           key2: 'I am two',
           key3: 'I am three'
       }
-      this.$axios.get("https://jgooynjere.execute-api.us-west-2.amazonaws.com/Deploy/info", {
-          params:param
-      }).then(response => {
+    
+    GetTestInfo(param).then(response => {
             // this.data_1 = response["data"]["body"];
             console.log(response);
         });
