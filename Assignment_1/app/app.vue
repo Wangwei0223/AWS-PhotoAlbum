@@ -7,8 +7,7 @@
 </template>
 
 <script>
-import {GetTestInfo} from './utils/data.js';
-
+import { GetTestInfo } from "./utils/data";
 export default {
   data() {
     return {
@@ -19,15 +18,14 @@ export default {
     testLambdaDemo() {
       console.log("Test Lambda Demo");
       let param = {
-          key1: 'I am one',
-          key2: 'I am two',
-          key3: 'I am three'
-      }
-    
-    GetTestInfo(param).then(response => {
-            // this.data_1 = response["data"]["body"];
-            console.log(response);
-        });
+        key1: "I am one",
+        key2: "I am two",
+        key3: "I am three"
+      };
+      GetTestInfo(param).then(response => {
+        // this.data_1 = response["data"]["body"];
+        console.log(response);
+      });
     }
   }
 };
