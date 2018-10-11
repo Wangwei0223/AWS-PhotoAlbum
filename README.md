@@ -5,4 +5,4 @@ npm install
 
 npm run dev
 
-host in weiwang.com:3000
+host in your ip:3000
