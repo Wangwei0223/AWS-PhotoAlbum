@@ -49,6 +49,7 @@ module.exports={
 		port:3000,
 		compress:true,
 		inline:true,
+		disableHostCheck: true, /*新版本会检测host是否一致*/
 		proxy:{}
 	},
 	plugins:[
