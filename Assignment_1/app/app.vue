@@ -1,37 +1,22 @@
 <template>
-    <div class="content">
-        <p>ChatBot Demo</p>
-        <button @click="testLambdaDemo()"> 测试Lambda Demo</button>
-        <p>{{data_1}}</p>
+    <div>
+      <chat-header title="Chat with a chat bot"></chat-header>
+      <chat-screen></chat-screen>
+      <router-view></router-view>
     </div>
 </template>
 
 <script>
-import { GetTestInfo } from "./utils/data";
+import chatHeader from './components/chatHeader.vue';
+import chatScreen from './components/chatScreen.vue';
 export default {
-  data() {
-    return {
-      data_1: ""
-    };
+  name:'app',
+  components:{
+    chatHeader,
+    chatScreen
   },
-  methods: {
-    testLambdaDemo() {
-      console.log("Test Lambda Demo");
-      let param = {
-        key1: "I am one",
-        key2: "I am two",
-        key3: "I am three"
-      };
-      GetTestInfo(param).then(response => {
-        // this.data_1 = response["data"]["body"];
-        console.log(response);
-      });
-    }
-  }
-};
+}
 </script>
 
-<style type="text/css" lang="scss" scoped>
-@import "./common/app.scss";
-</style>
+
 
