@@ -15,5 +15,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    @import "../common/top.scss";;
+    @import "../common/chatHeader.scss";;
 </style>
