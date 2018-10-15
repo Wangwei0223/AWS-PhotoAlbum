@@ -1,7 +1,7 @@
 <template>
     <div class="screen">
         <div :class="{'container': item.type === 0, 'container-reverse': item.type === 1}" v-for="(item, index) in messages" :key="index">
-        <img src="https://raw.githubusercontent.com/Wangwei0223/markdown_photos/master/test-image/J.fla.png" class="animated fadeInUp">
+        <img :class="{'send-img':item.type === 0, 'receive-img':item.type === 1}" class="animated fadeInUp">
         <div class="animated" :class="{'bounceInLeft':item.type === 0, 'bounceInRight':item.type === 1}">{{item.msg}}</div>
         </div>
     </div>
@@ -21,8 +21,8 @@ export default {
     
   },
   mounted() {
-    eventBus.$on("sendMessage", (msg, type) => {
-      this.messages.push({ msg: msg, type: type });
+    eventBus.$on("sendMessage", (response) => {
+      this.messages.push(response);
     });
   }
 };
