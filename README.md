@@ -14,4 +14,6 @@ host on
 S3 Link: https://s3-us-west-2.amazonaws.com/chatbotresource/views/index.html#/
 
 
+Code of Lambda function is in lambda/index.js
+
 ![](https://github.com/Wangwei0223/AWS-LambdaDemo/blob/master/Assignment_1/images/image_1.png?raw=true)
