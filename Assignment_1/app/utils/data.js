@@ -9,5 +9,5 @@ export function GetTestInfo(param) {
 }
 
 export function GetTestInfoPost(param) {
-    return axios.post('https://txv6qdtkj4.execute-api.us-east-1.amazonaws.com/test/chatbot', param);
+    return axios.post('https://txv6qdtkj4.execute-api.us-east-1.amazonaws.com/test/chatbot', param, {timeout: 5000});
 }
