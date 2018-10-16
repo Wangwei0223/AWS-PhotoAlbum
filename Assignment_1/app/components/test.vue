@@ -21,16 +21,6 @@ export default {
   methods: {
     testLambdaDemo() {
       console.log("Test Lambda Demo");
-      // let param = {
-      //   key1: "I am one",
-      //   key2: "I am two",
-      //   key3: "I am three"
-      // };
-      // GetTestInfo(param).then(response => {
-      //   // this.data_1 = response["data"]["body"];
-      //   console.log(response);
-      //   this.data_1 = response;
-      // });
       let param = {
         messages: [
           {
