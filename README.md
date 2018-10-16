@@ -2,6 +2,8 @@
 Api Gateway + Lambda
 Front End based on Vue.js
 
+cd Assignment_1
+
 npm install
 
 npm run dev
