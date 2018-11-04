@@ -1,6 +1,7 @@
 // Modules, e.g. Webpack:
 var AmazonCognitoIdentity = require('amazon-cognito-identity-js');
-
+import AWS from 'aws-sdk';
+import axios from 'axios';
 export function RegisterUser() {
     var poolData = {
         UserPoolId: 'us-west-2_d1PKrQeyR', // Your user pool id here
@@ -107,4 +108,73 @@ export function Auth(username, password){
         },
 
     });
+}
+
+export function Session(){
+    var poolData = {
+        UserPoolId : 'us-west-2_d1PKrQeyR', // Your user pool id here
+        ClientId : '7i2i8gn6el0pb1vuqr4d3tduod' // Your client id here
+    };
+    var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+    var cognitoUser = userPool.getCurrentUser();
+    console.log('Current User is :');
+    console.log(cognitoUser);
+    if (cognitoUser != null) {
+        cognitoUser.getSession(function(err, session) {
+            if (err) {
+                alert(err.message || JSON.stringify(err));
+                return;
+            }
+            console.log('session validity: ' + session.isValid());
+            //NOTE: getSession must be called to authenticate user before calling getUserAttributes
+            cognitoUser.getUserAttributes(function(err, attributes) {
+                if (err) {
+                    // Handle error
+                } else {
+                    // Do something with attributes
+                }
+            });
+
+            AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+                IdentityPoolId : 'us-west-2:895c75a4-ca69-4ebf-b763-85f14357217f', // your identity pool id here
+                Logins : {
+                    // Change the key below according to the specific region your user pool is in.
+                    'cognito-idp.us-west-2.amazonaws.com/us-west-2_d1PKrQeyR' : session.getIdToken().getJwtToken()
+                }
+            }, {region: 'us-west-2'});
+
+            var cred = AWS.config.credentials;
+        
+            cred.refresh(function(err){
+                if (err) console.log(err);
+                else {
+                    console.log(cred);
+                    console.log(session.getIdToken().getJwtToken());
+                    axios.defaults.headers.common['Authorization'] = session.getIdToken().getJwtToken();
+                    axios.get('https://opmjcz5zk3.execute-api.us-west-2.amazonaws.com/test').then(function(data){
+                        console.log(data);
+                    }).catch(function(err){
+                        console.log(err);
+                    });
+                    // var lambda = new AWS.Lambda({
+                    //     credentials: cred,
+                    //     region: 'us-west-2'
+                    // });
+                    // var params = {
+                    //     FunctionName: 'DemoSignUp',
+                    //     InvocationType: 'RequestResponse',
+                    //     Payload:''
+                    // };
+                    // lambda.invoke(params, function(err, data){
+                    //     if(err) console.log(err, err.stack);
+                    //     else {
+                    //         console.log(data);
+                    //     }
+                    // });
+
+                }
+            });
+
+        });
+    }
 }
