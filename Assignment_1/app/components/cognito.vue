@@ -5,12 +5,13 @@
             <button @click="Test">测试注册</button>
             <input type="text" v-model="code"/><button @click="SendCode">测试验证码</button>
             <input type="text" v-model="username" /> <input type="text" v-model="password"/><button @click="SendAuth">测试Auth</button>
+            <button @click="TestSession">Test Session</button>
         </div>
     </div>    
 </template>
 
 <script>
-import { RegisterUser, Confrim, Auth } from "../utils/cognito";
+import { RegisterUser, Confrim, Auth, Session } from "../utils/cognito";
 
 export default {
   data(){
@@ -32,6 +33,9 @@ export default {
       },
       SendAuth(){
           Auth(this.username, this.password);
+      },
+      TestSession(){
+          Session();
       }
   }
 };
