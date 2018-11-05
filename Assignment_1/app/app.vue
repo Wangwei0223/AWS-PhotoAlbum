@@ -8,7 +8,7 @@
 export default {
   name:'app',
   created(){
-    this.$router.push('/cognito');
+    this.$router.push('/lex');
   }
 }
 </script>
