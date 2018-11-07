@@ -7,6 +7,8 @@
 </template>
 
 <script>
+import {} from '../utils/lex';
+
 export default {
     
 }
