@@ -10,7 +10,7 @@ import eventBus from "../utils/eventBus";
 export default {
   data() {
     return {
-      text: ""
+      text: "",
     };
   },
   methods: {

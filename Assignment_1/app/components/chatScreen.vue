@@ -14,54 +14,68 @@
 <script>
 import eventBus from "../utils/eventBus";
 import { GetTestInfoPost } from "../utils/data";
+import { testLex, lexRuntime, userName } from "../utils/lex";
+
 export default {
+  created() {
+    testLex();
+    var lexruntime = lexRuntime();
+    this.lex = lexruntime;
+    this.lexUserId = "DiningBot" + userName();
+    this.sessionAttributes = {};
+  },
   data() {
     return {
       // 0 send 1 receive
       messages: [
         { msg: "Hello, I am a Bot. You can chat with me now.", type: 0 }
       ],
-      typing: false
+      typing: false,
+      input: "",
+      lex: "",
+      lexUserId: "",
+      sessionAttributes: {},
+      idToken:''
     };
   },
-  methods: {},
+  methods: {
+
+  },
   mounted() {
     eventBus.$on("sendMessage", response => {
       this.messages.push(response);
       this.typing = true;
-      let param = {
-        messages: [
-          {
-            type: "string",
-            unstructured: {
-              id: +new Date() + "chatbot",
-              text: response.msg,
-              timestamp: +new Date()
-            }
-          }
-        ]
+      var params = {
+        botAlias: "$LATEST",
+        botName: "DiningBot",
+        inputText: response.msg,
+        userId: this.lexUserId,
+        sessionAttributes: this.sessionAttributes
       };
-      GetTestInfoPost(param)
-        .then(response => {
+
+      this.lex.postText(params, (err, data) => {
+        if (err) {
+          console.log(err, err.stack);
+          console.log("Error:  " + err.message + " (see console for details)");
+        }
+        if (data) {
+          // capture the sessionAttributes for the next cycle
+          this.sessionAttributes = data.sessionAttributes;
+          // show response and/or error/dialog status
+          console.log(data);
           this.typing = false;
-          response.data.statusCode === 200
+          data.message
             ? this.messages.push({
-                msg: JSON.parse(response.data.body).messages[0].unstructured
-                  .text,
+                msg: data.message,
                 type: 0
               })
             : this.messages.push({
                 msg: "Error",
                 type: 0
               });
-        })
-        .catch(() => {
-          this.typing = false;
-          this.messages.push({
-            msg: "Time out Error, please try again",
-            type: 0
-          });
-        });
+        }
+        // re-enable input
+      });
     });
   }
 };

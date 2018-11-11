@@ -3,7 +3,7 @@
         <div class="content">
             <div>Test Lex</div>
             <button @click="test">Test</button>
-            <input type="text" v-model="input"/> <button @click="type">去你妈的</button>
+            <input type="text" v-model="input"/> <button @click="type">test lexruntime</button>
         </div>
     </div>    
 </template>
@@ -21,7 +21,7 @@ export default {
   },
   data() {
     return {
-      input: "",
+      input: '',
       lex: '',
       lexUserId: ''
     };
