@@ -9,7 +9,7 @@ module.exports={
 	output:{
 		path:path.resolve(__dirname,"../app/dist"),
 		publicPath:'/dist/',
-		filename:'js/[name].bundle.js',
+		filename:'js/[name].bundle2.js',
 		chunkFilename: 'js/[name].chunk.js',//也可以配置为[name].js;
 	},
 	module:{

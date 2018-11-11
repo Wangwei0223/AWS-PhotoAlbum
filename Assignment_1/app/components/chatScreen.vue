@@ -15,33 +15,16 @@
 import eventBus from "../utils/eventBus";
 import { GetTestInfoPost } from "../utils/data";
 import { testLex, lexRuntime, userName } from "../utils/lex";
+import {globalSession} from '../utils/cognito';
 
 export default {
   created() {
-    testLex();
-    var lexruntime = lexRuntime();
+    testLex(globalSession);
+    var lexruntime = lexRuntime(globalSession);
     this.lex = lexruntime;
     this.lexUserId = "DiningBot" + userName();
     this.sessionAttributes = {};
-  },
-  data() {
-    return {
-      // 0 send 1 receive
-      messages: [
-        { msg: "Hello, I am a Bot. You can chat with me now.", type: 0 }
-      ],
-      typing: false,
-      input: "",
-      lex: "",
-      lexUserId: "",
-      sessionAttributes: {},
-      idToken:''
-    };
-  },
-  methods: {
 
-  },
-  mounted() {
     eventBus.$on("sendMessage", response => {
       this.messages.push(response);
       this.typing = true;
@@ -55,8 +38,9 @@ export default {
 
       this.lex.postText(params, (err, data) => {
         if (err) {
-          console.log(err, err.stack);
-          console.log("Error:  " + err.message + " (see console for details)");
+          // console.log(err, err.stack);
+          // console.log("Error:  " + err.message + " (see console for details)");
+          this.resend(params);
         }
         if (data) {
           // capture the sessionAttributes for the next cycle
@@ -77,6 +61,51 @@ export default {
         // re-enable input
       });
     });
+  },
+  data() {
+    return {
+      // 0 send 1 receive
+      messages: [
+        { msg: "Hello, I am a Bot. You can chat with me now.", type: 0 }
+      ],
+      typing: false,
+      input: "",
+      lex: "",
+      lexUserId: "",
+      sessionAttributes: {},
+      idToken:''
+    };
+  },
+  methods: {
+    resend(params){
+      this.lex.postText(params, (err, data) => {
+        if (err) {
+          // console.log(err, err.stack);
+          // console.log("Error:  " + err.message + " (see console for details)");
+          console.log('re');
+        }
+        if (data) {
+          // capture the sessionAttributes for the next cycle
+          this.sessionAttributes = data.sessionAttributes;
+          // show response and/or error/dialog status
+          console.log(data);
+          this.typing = false;
+          data.message
+            ? this.messages.push({
+                msg: data.message,
+                type: 0
+              })
+            : this.messages.push({
+                msg: "Error",
+                type: 0
+              });
+        }
+        // re-enable input
+      });
+    }
+  },
+  mounted() {
+
   }
 };
 </script>

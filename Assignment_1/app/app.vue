@@ -21,10 +21,10 @@ export default {
   },
   created() {
     // App enter, immediately check user and add user to localstroage
-    Auth('291978313@qq.com', 'Ww950223_');
-    confrimLogin();
-    // mockLogin();
-  }
+    // confrimLogin();
+    // Auth('ww1306@nyu.edu', 'Ww950223_');
+    mockLogin();
+  },
 };
 </script>
 

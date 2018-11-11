@@ -4,6 +4,8 @@ import AWS from 'aws-sdk';
 import axios from 'axios';
 import sigV4Client from './sigV4Client';
 
+var globalSession;
+
 export function RegisterUser() {
     var poolData = {
         UserPoolId: 'us-west-2_d1PKrQeyR', // Your user pool id here
@@ -188,6 +190,7 @@ export function confrimLogin() {
     console.log(cognitoUser);
     if (cognitoUser != null) {
         cognitoUser.getSession(function (err, result) {
+            console.log(result);
             if (result) {
                 console.log('You are now logged in.');
                 // Add the User's Id Token to the Cognito credentials login map.
@@ -203,23 +206,46 @@ export function confrimLogin() {
 }
 
 export function mockLogin() {
+    console.log('login');
     var location = window.location.href;
     var idToken_access = location.split('id_token=')[1].split('&expires_in=')[0];
     var idToken = idToken_access.split('&access_token=')[0];
     var access_token = idToken_access.split('&access_token=')[1];
-    localStorage.setItem('CognitoIdentityServiceProvider.7i2i8gn6el0pb1vuqr4d3tduod.58685d55-7d3d-4e7b-a140-9569a4c0f9ff.idToken', idToken);
-    localStorage.setItem('CognitoIdentityServiceProvider.7i2i8gn6el0pb1vuqr4d3tduod.LastAuthUser', '7eca1b6e-bf91-4c1a-be01-01b415041fc7');
-    localStorage.setItem('CognitoIdentityServiceProvider.7i2i8gn6el0pb1vuqr4d3tduod.7eca1b6e-bf91-4c1a-be01-01b415041fc7.clockDrift', 0);
-    localStorage.setItem('CognitoIdentityServiceProvider.7i2i8gn6el0pb1vuqr4d3tduod.7eca1b6e-bf91-4c1a-be01-01b415041fc7.accessToken', access_token);
-    localStorage.setItem('aws.cognito.identity-providers.us-west-2:895c75a4-ca69-4ebf-b763-85f14357217f', 'cognito-idp.us-west-2.amazonaws.com/us-west-2_d1PKrQeyR');
+    let cur = +new Date();
+    localStorage.setItem('CognitoIdentityServiceProvider.7i2i8gn6el0pb1vuqr4d3tduod.' + cur + '.idToken', idToken);
+    localStorage.setItem('CognitoIdentityServiceProvider.7i2i8gn6el0pb1vuqr4d3tduod.LastAuthUser', cur);
+    localStorage.setItem('CognitoIdentityServiceProvider.7i2i8gn6el0pb1vuqr4d3tduod' + cur + '.clockDrift', 0);
+    localStorage.setItem('CognitoIdentityServiceProvider.7i2i8gn6el0pb1vuqr4d3tduod.' + cur + '.accessToken', access_token);
     AWS.config.region = 'us-east-1'; // Region
+    const AccessToken = new AmazonCognitoIdentity.CognitoAccessToken({ AccessToken: access_token });
+    const IdToken = new AmazonCognitoIdentity.CognitoIdToken({ IdToken: idToken });
+    const sessionData = {
+        IdToken: IdToken,
+        AccessToken: AccessToken,
+    };
+    const CognitoUserSession = new AmazonCognitoIdentity.CognitoUserSession(sessionData);
+    globalSession = CognitoUserSession;
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({
         IdentityPoolId: 'us-west-2:895c75a4-ca69-4ebf-b763-85f14357217f', // your identity pool id here
         Logins: {
             // Change the key below according to the specific region your user pool is in.
-            'cognito-idp.us-west-2.amazonaws.com/us-west-2_d1PKrQeyR': idToken
+            'cognito-idp.us-west-2.amazonaws.com/us-west-2_d1PKrQeyR': globalSession.getIdToken().getJwtToken()
             //Change: session.getIdToken().getJwtToken() => token
         }
     }, { region: 'us-west-2' });
+    var cred = AWS.config.credentials;
+    cred.refresh(function (err) {
+        if (err) console.log(err);
+        else {
+            let accessKey = cred.accessKeyId;
+            let secretKey = cred.secretAccessKey;
+            let sessionToken = cred.sessionToken;
+            console.log('accessKey: ' + accessKey);
+            console.log('secretKey: ' + secretKey);
+            console.log('sessionToken:' + sessionToken);
+        }
+    });
 
 }
+
+export var globalSession;
