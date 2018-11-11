@@ -23,10 +23,11 @@ Code of Lambda function is in lambda/index.js
 Assignment_2
 
 Group Members:
-Wei Wang    ww1306
-Jingyao Li  jl9075
-Kuan Chen   kc3422
-Guanhua Chen gl2229
+
+1. Wei Wang    ww1306
+2. Jingyao Li  jl9075
+3. Kuan Chen   kc3422
+4. Guanhua Chen gl2229
 
 
 folder: app:Our front end code using Vue.js
