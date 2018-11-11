@@ -8,7 +8,7 @@ Group Members:
 1. Wei Wang    ww1306
 2. Jingyao Li  jl9075
 3. Kuan Chen   kc3422
-4. Guanhua Chen gl2229
+4. Guanhua Chen gc2229
 
 
 folder: app:Our front end code using Vue.js
