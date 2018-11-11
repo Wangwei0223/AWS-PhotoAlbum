@@ -31,7 +31,8 @@ Guanhua Chen gl2229
 
 folder: app:Our front end code using Vue.js
 folder:
-lambda:
+    lambdas:
+    
     lex(Lambda1):
         GreetingCodeHook: 
         DiningSuggestionsCodeHook: get info from users & send to SQS queue
