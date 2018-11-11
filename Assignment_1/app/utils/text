@@ -124,3 +124,7 @@ export function Session(){
             //          console.log('Successfully logged!');
             //     }
             // });
+
+Login Page
+
+https://weiwang.auth.us-west-2.amazoncognito.com/login?response_type=token&client_id=7i2i8gn6el0pb1vuqr4d3tduod&redirect_uri=https://s3-us-west-2.amazonaws.com/chatbotresource/views/index2.html

@@ -53,7 +53,7 @@ export function Confrim(code) {
     var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
     cognitoUser.confirmRegistration(code, true, function (err, result) {
         if (err) {
-            alert(err.message || JSON.stringify(err));
+            (err.message || JSON.stringify(err));
             return;
         }
         console.log('call result: ' + result);
@@ -98,7 +98,7 @@ export function Session() {  // 产生Credential 用产生的accessKey secrectKe
     };
     var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
     var cognitoUser = userPool.getCurrentUser();
-    console.log('Current User is :');
+    console.log('');
     console.log(cognitoUser);
     if (cognitoUser != null) {
         cognitoUser.getSession(function (err, session) {
@@ -126,7 +126,7 @@ export function Session() {  // 产生Credential 用产生的accessKey secrectKe
 
             var cred = AWS.config.credentials;
 
-            cred.refresh(function(err){
+            cred.refresh(function (err) {
                 if (err) console.log(err);
                 else {
                     let accessKey = cred.accessKeyId;
@@ -138,24 +138,24 @@ export function Session() {  // 产生Credential 用产生的accessKey secrectKe
                     console.log('sessionToken:' + sessionToken);
                     let client = sigV4Client.newClient({
                         // Your AWS temporary access key
-                        accessKey : accessKey,
+                        accessKey: accessKey,
                         // Your AWS temporary secret key
                         secretKey: secretKey,
                         // Your AWS temporary session token
                         sessionToken: sessionToken,
                         // API Gateway region
-                        region:region ,
+                        region: region,
                         // API Gateway URL
                         endpoint: 'https://sr0igfw871.execute-api.us-west-2.amazonaws.com/demo'
-                      });
+                    });
                     let request = client.signRequest({
                         method: 'GET',
                         path: '',
                         headers: {},
                         queryParams: {},
-                        body:{}
-                      });
-                    
+                        body: {}
+                    });
+
                     console.log(request);
 
                     // const results = fetch(request.url, {
@@ -165,9 +165,9 @@ export function Session() {  // 产生Credential 用产生的accessKey secrectKe
                     //     console.log(data);
                     // });
                     axios.defaults.headers = request.headers;
-                    axios.get('https://sr0igfw871.execute-api.us-west-2.amazonaws.com/demo').then(function(data){
+                    axios.get('https://sr0igfw871.execute-api.us-west-2.amazonaws.com/demo').then(function (data) {
                         console.log(data);
-                    }).catch(function(err){
+                    }).catch(function (err) {
                         console.log(err);
                     });
                 }
@@ -175,4 +175,51 @@ export function Session() {  // 产生Credential 用产生的accessKey secrectKe
 
         });
     }
+}
+
+export function confrimLogin() {
+    var poolData = {
+        UserPoolId: 'us-west-2_d1PKrQeyR', // Your user pool id here
+        ClientId: '7i2i8gn6el0pb1vuqr4d3tduod' // Your client id here // 应用程序ID
+    };
+    var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+    var cognitoUser = userPool.getCurrentUser();
+    console.log('wei user');
+    console.log(cognitoUser);
+    if (cognitoUser != null) {
+        cognitoUser.getSession(function (err, result) {
+            if (result) {
+                console.log('You are now logged in.');
+                // Add the User's Id Token to the Cognito credentials login map.
+                AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+                    IdentityPoolId: 'us-west-2:895c75a4-ca69-4ebf-b763-85f14357217f',
+                    Logins: {
+                        'cognito-idp.us-west-2.amazonaws.com/us-west-2_d1PKrQeyR': result.getIdToken().getJwtToken()
+                    }
+                });
+            }
+        });
+    }
+}
+
+export function mockLogin() {
+    var location = window.location.href;
+    var idToken_access = location.split('id_token=')[1].split('&expires_in=')[0];
+    var idToken = idToken_access.split('&access_token=')[0];
+    var access_token = idToken_access.split('&access_token=')[1];
+    localStorage.setItem('CognitoIdentityServiceProvider.7i2i8gn6el0pb1vuqr4d3tduod.58685d55-7d3d-4e7b-a140-9569a4c0f9ff.idToken', idToken);
+    localStorage.setItem('CognitoIdentityServiceProvider.7i2i8gn6el0pb1vuqr4d3tduod.LastAuthUser', '7eca1b6e-bf91-4c1a-be01-01b415041fc7');
+    localStorage.setItem('CognitoIdentityServiceProvider.7i2i8gn6el0pb1vuqr4d3tduod.7eca1b6e-bf91-4c1a-be01-01b415041fc7.clockDrift', 0);
+    localStorage.setItem('CognitoIdentityServiceProvider.7i2i8gn6el0pb1vuqr4d3tduod.7eca1b6e-bf91-4c1a-be01-01b415041fc7.accessToken', access_token);
+    localStorage.setItem('aws.cognito.identity-providers.us-west-2:895c75a4-ca69-4ebf-b763-85f14357217f', 'cognito-idp.us-west-2.amazonaws.com/us-west-2_d1PKrQeyR');
+    AWS.config.region = 'us-east-1'; // Region
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+        IdentityPoolId: 'us-west-2:895c75a4-ca69-4ebf-b763-85f14357217f', // your identity pool id here
+        Logins: {
+            // Change the key below according to the specific region your user pool is in.
+            'cognito-idp.us-west-2.amazonaws.com/us-west-2_d1PKrQeyR': idToken
+            //Change: session.getIdToken().getJwtToken() => token
+        }
+    }, { region: 'us-west-2' });
+
 }
