@@ -13,7 +13,7 @@
 
 <script>
 import eventBus from "../utils/eventBus";
-import { GetTestInfoPost } from "../utils/data";
+import { Post } from "../utils/data";
 import { testLex, lexRuntime, userName } from "../utils/lex";
 import {globalSession} from '../utils/cognito';
 

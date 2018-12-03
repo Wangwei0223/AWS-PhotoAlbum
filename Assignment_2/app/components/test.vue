@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { GetTestInfo } from "../utils/data";
+import {  } from "../utils/data";
 import { GetTestInfoPost } from "../utils/data";
 import eventBus from "../utils/eventBus";
 export default {

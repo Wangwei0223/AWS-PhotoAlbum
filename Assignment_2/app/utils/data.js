@@ -8,9 +8,15 @@ export function GetTestInfo(param) {
 }
 
 export function GetTestInfoPost(param) {
-    return axios.post('https://txv6qdtkj4.execute-api.us-east-1.amazonaws.com/test/chatbot', param, {timeout: 5000});
+    return axios.post('https://txv6qdtkj4.execute-api.us-east-1.amazonaws.com/test/chatbot', param, { timeout: 5000 });
 }
 
-export function TestAuthoriztion(){
+export function TestAuthoriztion() {
     return axios.get('https://opmjcz5zk3.execute-api.us-west-2.amazonaws.com/test');
+}
+
+export function SendMessage(message) {
+    return axios.get('https://z59y6gx158.execute-api.us-east-1.amazonaws.com/prod/search', {
+        params: { q: message }
+    });
 }
