@@ -10,7 +10,7 @@
     <input type="button" value="Browse" onclick="document.getElementById('inputFile').click()">
     <button @click="testGet">TEST GET</button>
     <button @click="testPUT">TEST PUT</button>
-    <img src="https://s3.amazonaws.com/jingyao-photo/Aimer.jpg">
+    <!-- <img src="https://s3.amazonaws.com/jingyao-photo/Aimer.jpg" style="width:200px;height:200px"> -->
   </div>
 </template>
 
@@ -42,6 +42,7 @@ export default {
       this.filename = files[0]["name"];
       // let data = new FormData();
       // data.append(this.filename, files[0]);
+      console.log(files[0]);
       PutImage(files[0]).then(s => {
         console.log(s);
       });
