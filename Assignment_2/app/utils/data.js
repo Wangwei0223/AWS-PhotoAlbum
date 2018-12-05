@@ -20,3 +20,50 @@ export function SendMessage(message) {
         params: { q: message }
     });
 }
+
+export function GetImage(param) { 
+    let url = 'https://pqrqlu9q36.execute-api.us-east-1.amazonaws.com/test/weiphoto/Aimer.png';
+    return axios.get(url);
+}
+
+export function PutImage(image){
+    let url = 'https://pqrqlu9q36.execute-api.us-east-1.amazonaws.com/test/photoccc/new.jpg';
+    url = 'https://4h08cwxwnc.execute-api.us-east-1.amazonaws.com/prod/jingyao-photo/Aimer.jpg'
+    var params = image;
+    return axios.put(url,params, {
+        headers: {
+            'Content-Type': 'application/octet-stream',
+        }
+    });
+}
+
+export function ss(param) { 
+    var params = {
+        //This is where any header, path, or querystring request params go. The key is the parameter named as defined in the API
+        folder: 'weiphoto',
+        item: 'weiphoto.png',
+        "Content-Type": "image/png",
+    };
+
+    var body = {
+        //This is where you define the body of the request
+    };
+    var selectedFile = document.getElementById('input').files[0];
+    var fileReader = new FileReader();
+    var additionalParams = {
+        headers: {
+            "Content-Type": "image/png",
+        }
+    };
+    fileReader.onload = function (event) {
+        body = event.target.result;
+        apigClient.photosFolderItemPut(params, body, additionalParams)
+            .then(function (result) {
+                //This is where you would put a success callback
+            }).catch(function (result) {
+                //This is where you would put an error callback
+                console.log(result);
+            });
+    }
+    fileReader.readAsBinaryString(selectedFile);
+ }
