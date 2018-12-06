@@ -24,6 +24,7 @@ export default {
     // confrimLogin();
     // Auth('ww1306@nyu.edu', 'Ww950223_');
     // mockLogin();
+    // this.$router.push('/search');
   },
 };
 </script>

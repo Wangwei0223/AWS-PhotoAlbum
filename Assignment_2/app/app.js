@@ -16,7 +16,8 @@ const router = new VueRouter({
         { path: '/cognito', component: cognito },
         { path: '/chatBot', component: chatBot },
         { path: '/lex', component: lex },
-        { path: '/search', component: search }
+        { path: '/search', component: search },
+        { path: '/', redirect: '/search' }
     ]
 });
 

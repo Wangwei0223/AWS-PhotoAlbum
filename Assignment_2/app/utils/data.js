@@ -27,12 +27,16 @@ export function GetImage(param) {
 }
 
 export function PutImage(image){
-    let url = 'https://pqrqlu9q36.execute-api.us-east-1.amazonaws.com/test/photoccc/new.png';
-    url = 'https://4h08cwxwnc.execute-api.us-east-1.amazonaws.com/prod/jingyao-photo/Aimer.png'
+    // let url = 'https://pqrqlu9q36.execute-api.us-east-1.amazonaws.com/test/photoccc/new.png';
+    let filename = image['name']
+    let url = 'https://z59y6gx158.execute-api.us-east-1.amazonaws.com/prod/upload/jingyao-photo/' + filename;
+    let filetype = image['name'].split('.').reverse()[0];
+    if(filetype === 'jpg') filetype = 'jpeg';
+    let content_type = 'image/' + filetype;
     var params = image;
     return axios.put(url,params, {
         headers: {
-            'Content-Type': 'image/png',
+            'Content-Type': content_type,
         }
     });
 }
