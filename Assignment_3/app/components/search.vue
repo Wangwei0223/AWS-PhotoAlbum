@@ -49,8 +49,8 @@ export default {
   },
   methods: {
     send() {
+      this.photo_list = [];
       SendMessage(this.keyword).then(data => {
-        this.photo_list = [];
         console.log(data);
         if (Array.isArray(data["data"])) {
           this.photo_list = data["data"];
