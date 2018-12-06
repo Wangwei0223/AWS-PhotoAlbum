@@ -16,6 +16,7 @@ This Photo Album app contains
 4. Serach labels from ES (enabled both text and voice input using aws-lex-audio.min.js) and display images. Using Lex from extracting key words
 
 folder:
+
     lambda:
     > index-photos.py: LF1
         
