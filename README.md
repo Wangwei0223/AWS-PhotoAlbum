@@ -13,7 +13,7 @@ This Photo Album app contains
 1. upload image files in JPG or PNG format to S3 Bucket.
 2. upload action trigger lambda 1 using Rekognition to detect labels
 3. Store labels to ES
-4. Serach labels from ES (enabled both text and voice input using aws-lex-audio.min.js) and display images. Using Lex from extracting key words
+4. Serach labels from ES (enabled both text and voice input using aws-lex-audio.min.js) and display images. Using Lex to extract key words
 
 folder:
 
