@@ -209,6 +209,10 @@ export function confrimLogin() {
     var cognitoUser = userPool.getCurrentUser();
     console.log('jl user');
     console.log(cognitoUser);
+    if(!cognitoUser){
+        cognitoUser = {};
+        location.reload();
+    }
     if (cognitoUser != null) {
         cognitoUser.getSession(function (err, result) {
             console.log('confirm: ', result);
