@@ -4,7 +4,7 @@
     <button @click="startRecord">Start</button>
     <button @click="endRecord">End</button>
     <button @click="exportWAV">Export</button>
-    <button @click="buildCoversation">buildCoversation</button>
+    <!-- <button @click="buildCoversation">buildCoversation</button> -->
     <button @click="startCoversation">startCoversation</button>
   </div>
 </template>
@@ -22,6 +22,7 @@ export default {
   },
   created() {
     this.audioControl = new LexAudio.audioControl();
+    this.buildCoversation();
   },
   mounted() {
     this.lexRuntime = new lexRuntime();
@@ -42,7 +43,7 @@ export default {
       AWS.config.region = 'us-east-1';
 
       this.conversation = new LexAudio.conversation(
-        { lexConfig: { botName: "DiningBot"} },
+        { lexConfig: { botName: "SearchPhotos"} },
         function(state) {
           // Called on each state change.
           console.log(state);

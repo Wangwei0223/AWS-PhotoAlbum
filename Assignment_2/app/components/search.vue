@@ -11,6 +11,7 @@
       value="Upload Image"
       onclick="document.getElementById('inputFile').click()"
     >
+    <button @click="startCoversation">Voice Input</button>
     <span>{{filename}}</span>
     <span>{{success}}</span>
     <div>
@@ -31,14 +32,19 @@ import { GetImage } from "../utils/data";
 import { PutImage } from "../utils/data";
 
 export default {
-  created() {},
+  created() {
+    this.audioControl = new LexAudio.audioControl();
+    this.buildCoversation();
+  },
   data() {
     return {
       keyword: "",
       reader: "",
       filename: "",
       photo_list: [],
-      success: ""
+      success: "",
+      conversation: "",
+      audioControl: ""
     };
   },
   methods: {
@@ -63,6 +69,37 @@ export default {
           this.success = "";
         }, 1000);
       });
+    },
+    startCoversation() {
+      this.conversation.advanceConversation();
+    },
+    buildCoversation() {
+      AWS.config.region = "us-east-1";
+
+      this.conversation = new LexAudio.conversation(
+        { lexConfig: { botName: "SearchPhotos" } },
+        (state)=> {
+          // Called on each state change.
+          console.log(state);
+        },
+        (data)=> {
+          // Called with the LexRuntime.PostContent response.
+          if (data["message"].indexOf("]") !== -1) {
+            let temp = JSON.parse(data["message"]);
+            for (let i = 0; i < temp.length; i++) {
+              temp[i] = "https://s3.amazonaws.com/jingyao-photo/" + temp[i];
+            }
+            this.photo_list = temp;
+          }
+        },
+        (error)=> {
+          // Called on error.
+          console.log(error);
+        },
+        (timeDomain)=> {
+          // Called with audio time domain data (useful for rendering the recorded audio levels).
+        }
+      );
     },
     testGet() {
       GetImage().then(data => {

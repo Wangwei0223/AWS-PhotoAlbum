@@ -69,10 +69,16 @@ export function Auth(username, password) {
     };
     var authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(authenticationData);
 
+    // var poolData = {
+    //     UserPoolId: 'us-west-2_d1PKrQeyR', // Your user pool id here
+    //     ClientId: '7i2i8gn6el0pb1vuqr4d3tduod' // Your client id here
+    // };
+
     var poolData = {
-        UserPoolId: 'us-west-2_d1PKrQeyR', // Your user pool id here
-        ClientId: '7i2i8gn6el0pb1vuqr4d3tduod' // Your client id here
+        UserPoolId: 'us-east-1_801FlTzLQ', // Your user pool id here
+        ClientId: '6g9iti8crqsf46hv9pv20p657m' // Your client id here
     };
+
     var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
     var userData = {
         Username: username,
@@ -94,10 +100,15 @@ export function Auth(username, password) {
 }
 
 export function Session() {  // 产生Credential 用产生的accessKey secrectKey sessionToken 作为Auth附加在header中去请求apigate way
+    // var poolData = {
+    //     UserPoolId: 'us-west-2_d1PKrQeyR', // Your user pool id here
+    //     ClientId: '7i2i8gn6el0pb1vuqr4d3tduod' // Your client id here // 应用程序ID
+    // };
     var poolData = {
-        UserPoolId: 'us-west-2_d1PKrQeyR', // Your user pool id here
-        ClientId: '7i2i8gn6el0pb1vuqr4d3tduod' // Your client id here // 应用程序ID
+        UserPoolId: 'us-east-1_801FlTzLQ', // Your user pool id here
+        ClientId: '6g9iti8crqsf46hv9pv20p657m' // Your client id here
     };
+
     var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
     var cognitoUser = userPool.getCurrentUser();
     console.log('');
@@ -119,12 +130,14 @@ export function Session() {  // 产生Credential 用产生的accessKey secrectKe
             });
 
             AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-                IdentityPoolId: 'us-west-2:895c75a4-ca69-4ebf-b763-85f14357217f', // your identity pool id here
+                // IdentityPoolId: 'us-west-2:895c75a4-ca69-4ebf-b763-85f14357217f', // your identity pool id here
+                IdentityPoolId:'us-east-1:e539a235-137f-408a-943b-872de5ef5be9',
                 Logins: {
                     // Change the key below according to the specific region your user pool is in.
-                    'cognito-idp.us-west-2.amazonaws.com/us-west-2_d1PKrQeyR': session.getIdToken().getJwtToken()
+                    // 'cognito-idp.us-west-2.amazonaws.com/us-west-2_d1PKrQeyR': session.getIdToken().getJwtToken()
+                    'cognito-idp.us-east-1.amazonaws.com/us-east-1_801FlTzLQ': session.getIdToken().getJwtToken()
                 }
-            }, { region: 'us-west-2' });
+            }, { region: 'us-east-1' });
 
             var cred = AWS.config.credentials;
             
@@ -136,7 +149,8 @@ export function Session() {  // 产生Credential 用产生的accessKey secrectKe
                     let accessKey = cred.accessKeyId;
                     let secretKey = cred.secretAccessKey;
                     let sessionToken = cred.sessionToken;
-                    let region = 'us-west-2';
+                    let region = 'us-east-1';
+                    // let region = 'us-west-2';
                     console.log('accessKey: ' + accessKey);
                     console.log('secretKey: ' + secretKey);
                     console.log('sessionToken:' + sessionToken);
@@ -160,7 +174,7 @@ export function Session() {  // 产生Credential 用产生的accessKey secrectKe
                         body: {}
                     });
 
-                    console.log(request);
+                    // console.log(request);
 
                     // const results = fetch(request.url, {
                     //     method: 'GET',
@@ -182,13 +196,18 @@ export function Session() {  // 产生Credential 用产生的accessKey secrectKe
 }
 
 export function confrimLogin() {
+    // var poolData = {
+    //     UserPoolId: 'us-west-2_d1PKrQeyR', // Your user pool id here
+    //     ClientId: '7i2i8gn6el0pb1vuqr4d3tduod' // Your client id here // 应用程序ID
+    // };
     var poolData = {
-        UserPoolId: 'us-west-2_d1PKrQeyR', // Your user pool id here
-        ClientId: '7i2i8gn6el0pb1vuqr4d3tduod' // Your client id here // 应用程序ID
+        UserPoolId: 'us-east-1_801FlTzLQ', // Your user pool id here
+        ClientId: '6g9iti8crqsf46hv9pv20p657m' // Your client id here
     };
+
     var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
     var cognitoUser = userPool.getCurrentUser();
-    console.log('wei user');
+    console.log('jl user');
     console.log(cognitoUser);
     if (cognitoUser != null) {
         cognitoUser.getSession(function (err, result) {
@@ -197,16 +216,18 @@ export function confrimLogin() {
                 console.log('You are now logged in.');
                 // Add the User's Id Token to the Cognito credentials login map.
                 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-                    IdentityPoolId: 'us-west-2:895c75a4-ca69-4ebf-b763-85f14357217f',
+                    // IdentityPoolId: 'us-west-2:895c75a4-ca69-4ebf-b763-85f14357217f',
+                    IdentityPoolId:'us-east-1:e539a235-137f-408a-943b-872de5ef5be9',
                     Logins: {
-                        'cognito-idp.us-west-2.amazonaws.com/us-west-2_d1PKrQeyR': result.getIdToken().getJwtToken()
+                        // 'cognito-idp.us-west-2.amazonaws.com/us-west-2_d1PKrQeyR': result.getIdToken().getJwtToken()
+                        'cognito-idp.us-east-1.amazonaws.com/us-east-1_801FlTzLQ': result.getIdToken().getJwtToken()
                     }
                 });
                 console.log('hello yeah!!!!!!!!!!!!!!!',AWS.config.credentials);
             }
         });
     }
-    Session();
+    Session(); //新增
 }
 
 export function mockLogin() {
