@@ -7,6 +7,8 @@ import cognito from './components/cognito.vue';
 import chatBot from './components/chatBot.vue';
 import lex from './components/lex.vue';
 import search from './components/search.vue';
+import testvoice from './components/testvoice.vue';
+
 Vue.prototype.$axios = axios;
 Vue.use(VueRouter);
 
@@ -17,6 +19,7 @@ const router = new VueRouter({
         { path: '/chatBot', component: chatBot },
         { path: '/lex', component: lex },
         { path: '/search', component: search },
+        { path: '/testvoice', component: testvoice },
         { path: '/', redirect: '/search' }
     ]
 });

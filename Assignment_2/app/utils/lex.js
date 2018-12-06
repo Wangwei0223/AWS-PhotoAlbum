@@ -54,16 +54,6 @@ export function testLex(globalSession) {
 }
 
 export function lexRuntime(){
-    AWS.config.region = 'us-east-1'; // Region
-    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-        IdentityPoolId: 'us-west-2:895c75a4-ca69-4ebf-b763-85f14357217f', // your identity pool id here
-        Logins: {
-            // Change the key below according to the specific region your user pool is in.
-            'cognito-idp.us-west-2.amazonaws.com/us-west-2_d1PKrQeyR': Session.getIdToken().getJwtToken()
-            //Change: session.getIdToken().getJwtToken() => token
-        }
-    }, { region: 'us-west-2' });
-    // console.log(Session.getIdToken().getJwtToken());
     var lexruntime = new AWS.LexRuntime();
     return lexruntime;
 }

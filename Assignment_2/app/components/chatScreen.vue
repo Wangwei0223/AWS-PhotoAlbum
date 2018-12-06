@@ -15,7 +15,7 @@
 import eventBus from "../utils/eventBus";
 import { Post } from "../utils/data";
 import { testLex, lexRuntime, userName } from "../utils/lex";
-import {globalSession} from '../utils/cognito';
+import { globalSession } from '../utils/cognito';
 
 export default {
   created() {

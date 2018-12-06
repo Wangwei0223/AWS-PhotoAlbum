@@ -83,7 +83,7 @@ export function Auth(username, password) {
     cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: function (result) {
             var accessToken = result.getAccessToken().getJwtToken();
-            console.log(accessToken);
+            // console.log(accessToken);
         },
 
         onFailure: function (err) {
@@ -127,10 +127,12 @@ export function Session() {  // 产生Credential 用产生的accessKey secrectKe
             }, { region: 'us-west-2' });
 
             var cred = AWS.config.credentials;
-
+            
+            
             cred.refresh(function (err) {
                 if (err) console.log(err);
                 else {
+                    console.log('cred', cred);
                     let accessKey = cred.accessKeyId;
                     let secretKey = cred.secretAccessKey;
                     let sessionToken = cred.sessionToken;
@@ -166,12 +168,12 @@ export function Session() {  // 产生Credential 用产生的accessKey secrectKe
                     // }).then(function(data){
                     //     console.log(data);
                     // });
-                    axios.defaults.headers = request.headers;
-                    axios.get('https://sr0igfw871.execute-api.us-west-2.amazonaws.com/demo').then(function (data) {
-                        console.log(data);
-                    }).catch(function (err) {
-                        console.log(err);
-                    });
+                    // axios.defaults.headers = request.headers;
+                    // axios.get('https://sr0igfw871.execute-api.us-west-2.amazonaws.com/demo').then(function (data) {
+                    //     console.log(data);
+                    // }).catch(function (err) {
+                    //     console.log(err);
+                    // });
                 }
             });
 
@@ -190,7 +192,7 @@ export function confrimLogin() {
     console.log(cognitoUser);
     if (cognitoUser != null) {
         cognitoUser.getSession(function (err, result) {
-            console.log(result);
+            console.log('confirm: ', result);
             if (result) {
                 console.log('You are now logged in.');
                 // Add the User's Id Token to the Cognito credentials login map.
@@ -200,9 +202,11 @@ export function confrimLogin() {
                         'cognito-idp.us-west-2.amazonaws.com/us-west-2_d1PKrQeyR': result.getIdToken().getJwtToken()
                     }
                 });
+                console.log('hello yeah!!!!!!!!!!!!!!!',AWS.config.credentials);
             }
         });
     }
+    Session();
 }
 
 export function mockLogin() {
