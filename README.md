@@ -1,7 +1,6 @@
-# AWS-ChatBot
-========================================================================================================================
+Voice/Text Enabled Photo Album
 
-### Assignment_2
+### Assignment_3 Voice/Text Enabled Photo Album
 
 Group Members:
 
@@ -10,33 +9,39 @@ Group Members:
 3. Kuan Chen   kc3422
 4. Guanhua Chen gc2229
 
+This Photo Album app contains
+1. upload image files in JPG or PNG format to S3 Bucket.
+2. upload action trigger lambda 1 using Rekognition to detect labels
+3. Store labels to ES
+4. Serach labels from ES (enabled both text and voice input using aws-lex-audio.min.js) and display images. Using Lex from extracting key words
 
-folder: app:Our front end code using Vue.js
 folder:
-    lambdas:
-    
-    lex(Lambda1):
-        GreetingCodeHook: 
-        DiningSuggestionsCodeHook: get info from users & send to SQS queue
-        ThankyouCodeHook: 
-    
-    Lambda2:
-        Get info from SQS and send this info to yelp api & get suggestions back from yelp
-        Send suggestions to your phone using SNS
-        Save suggestions to DynamoDB
+    lambda:
+    > index-photos.py: LF1
+        
+    > search-photo.py: LF2
+        
+    > SearchPhotoCodeHook: Hook lambda for lex
+
+    other folders:
+        front-end code using Vue.js
 
 s3 link:
-https://weiwang.auth.us-west-2.amazoncognito.com/login?response_type=token&client_id=7i2i8gn6el0pb1vuqr4d3tduod&redirect_uri=https://s3-us-west-2.amazonaws.com/chatbotresource/views/index2.html
+    https://s3.amazonaws.com/photoccc/index.html
 
-For loginin: you can use our test account:
-account: ww1306@nyu.edu
-password:1234567890Ww_
+    default route to https://s3.amazonaws.com/photoccc/index.html#/search
 
-Or you can sign up yourself.
+For Locally run
+1. git clone git@github.com:Wangwei0223/AWS-PhotoAlbum.git
 
+2. cd Assignment_3
 
+3. npm install
 
-========================================================================================================================
+4. npm run dev
+
+5. host on http://127.0.0.1:3000/#/search (defalut route path is /search, other paths are for assignment_1 and assignment_2)
+
 
 
 
