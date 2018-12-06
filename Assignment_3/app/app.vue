@@ -22,7 +22,7 @@ export default {
   created() {
     // App enter, immediately check user and add user to localstroage
     Auth('jl9075@nyu.edu','Yeah123!');
-    confrimLogin();
+    // confrimLogin();
     // Auth('291978313@qq.com', 'Ww950223_');
     // Auth('jl9075@nyu.edu','Yeah123!');
     // this.$router.push('/search');

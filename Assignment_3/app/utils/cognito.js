@@ -90,6 +90,7 @@ export function Auth(username, password) {
         onSuccess: function (result) {
             var accessToken = result.getAccessToken().getJwtToken();
             // console.log(accessToken);
+            confrimLogin();
         },
 
         onFailure: function (err) {
@@ -209,10 +210,6 @@ export function confrimLogin() {
     var cognitoUser = userPool.getCurrentUser();
     console.log('jl user');
     console.log(cognitoUser);
-    if(!cognitoUser){
-        cognitoUser = {};
-        location.reload();
-    }
     if (cognitoUser != null) {
         cognitoUser.getSession(function (err, result) {
             console.log('confirm: ', result);

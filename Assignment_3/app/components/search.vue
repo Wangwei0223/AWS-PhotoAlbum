@@ -34,7 +34,6 @@ import { PutImage } from "../utils/data";
 export default {
   created() {
     this.audioControl = new LexAudio.audioControl();
-    this.buildCoversation();
   },
   data() {
     return {
@@ -72,6 +71,7 @@ export default {
       });
     },
     startCoversation() {
+      this.buildCoversation();
       this.conversation.advanceConversation();
     },
     buildCoversation() {
